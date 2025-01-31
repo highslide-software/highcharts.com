@@ -1093,8 +1093,8 @@ function seriesRenderCanvas(this: Series): void {
         compareX = options.findNearestPointBy === 'x',
         xDataFull = (
             (
-                this.getColumn('x', true).length ?
-                    this.getColumn('x', true) :
+                this.getColumn('x').length ?
+                    this.getColumn('x') :
                     void 0
             ) ||
             this.options.xData ||
