@@ -26,6 +26,7 @@ import type HTMLElement from '../../Core/Renderer/HTML/HTMLElement';
 import type Series from '../../Core/Series/Series';
 import type SeriesRegistry from '../../Core/Series/SeriesRegistry';
 import type SVGElement from '../../Core/Renderer/SVG/SVGElement';
+import type Point from '../../Core/Series/Point';
 
 import BoostChart from './BoostChart.js';
 import BoostSeries from './BoostSeries.js';
@@ -68,6 +69,7 @@ function compose(
     AxisClass: typeof Axis,
     SeriesClass: typeof Series,
     seriesTypes: typeof SeriesRegistry.seriesTypes,
+    PointClass: typeof Point,
     ColorClass?: typeof Color
 ): void {
     const wglMode = hasWebGLSupport();
@@ -91,7 +93,7 @@ function compose(
     // WebGL support is alright, and we're good to go.
 
     BoostChart.compose(ChartClass, wglMode);
-    BoostSeries.compose(SeriesClass, seriesTypes, wglMode);
+    BoostSeries.compose(SeriesClass, seriesTypes, PointClass, wglMode);
 
     // Handle zooming by touch/pinch or mouse wheel. Assume that boosted charts
     // are too slow for a live preview while dragging. Instead, just scale the

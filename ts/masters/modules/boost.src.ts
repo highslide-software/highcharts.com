@@ -25,6 +25,7 @@ Boost.compose(
     G.Axis,
     G.Series,
     G.seriesTypes,
+    G.Point,
     G.Color
 );
 
