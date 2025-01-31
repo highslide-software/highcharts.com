@@ -35,31 +35,56 @@ import VerletIntegration from '../Networkgraph/VerletIntegration.js';
  */
 function barycenter(this: PackedBubbleLayout): void {
     const layout = this,
-        gravitationalConstant = layout.options.gravitationalConstant,
+        gravitationalConstant = layout.options.gravitationalConstant || 0,
         box = layout.box,
-        nodes = layout.nodes as Array<PackedBubblePoint>;
+        nodes = layout.nodes as Array<PackedBubblePoint>,
+        nodeCountSqrt = Math.sqrt(nodes.length);
 
     let centerX: number,
         centerY: number;
 
     for (const node of nodes) {
-        if (layout.options.splitSeries && !node.isParentNode) {
-            centerX = (node.series.parentNode as any).plotX;
-            centerY = (node.series.parentNode as any).plotY;
-        } else {
-            centerX = box.width / 2;
-            centerY = box.height / 2;
-        }
-        if (!node.fixedPosition) {
-            (node.plotX as any) -=
-                ((node.plotX as any) - (centerX as any)) *
-                (gravitationalConstant as any) /
-                (node.mass * Math.sqrt(nodes.length));
 
-            (node.plotY as any) -=
-                ((node.plotY as any) - (centerY as any)) *
-                (gravitationalConstant as any) /
-                (node.mass * Math.sqrt(nodes.length));
+        if (!node.fixedPosition) {
+            const massTimesNodeCountSqrt = node.mass * nodeCountSqrt,
+                plotX = node.plotX || 0,
+                plotY = node.plotY || 0,
+                series = node.series,
+                parentNode = series.parentNode;
+
+            if (
+                layout.options.splitSeries &&
+                parentNode &&
+                !node.isParentNode
+            ) {
+                centerX = parentNode.plotX || 0;
+                centerY = parentNode.plotY || 0;
+            } else {
+                centerX = box.width / 2;
+                centerY = box.height / 2;
+            }
+
+            node.plotX = plotX - (
+                (plotX - centerX) *
+                gravitationalConstant /
+                massTimesNodeCountSqrt
+            );
+
+            node.plotY = plotY - (
+                (plotY - centerY) *
+                gravitationalConstant /
+                massTimesNodeCountSqrt
+            );
+
+            if (
+                series.chart.hoverPoint === node &&
+
+                // If redrawHalo exists we know its a draggable series and any
+                // halo present should be redrawn to update its visual position
+                series.redrawHalo && series.halo
+            ) {
+                series.redrawHalo(node);
+            }
         }
     }
 }

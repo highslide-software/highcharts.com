@@ -1,6 +1,0 @@
----
- name: Highcharts Demo
- authors:
-   - Grzegorz Blachliński
- js_wrap: b
-...

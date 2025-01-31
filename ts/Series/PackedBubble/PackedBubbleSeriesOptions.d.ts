@@ -204,7 +204,7 @@ export interface PackedBubbleSeriesOptions
     sizeBy?: BubbleSizeByValue;
 
     states?: SeriesStatesOptions<PackedBubbleSeries>;
-
+    stickyTracking: false;
     tooltip?: Partial<TooltipOptions>;
 
     /**

@@ -327,7 +327,7 @@ namespace PackedBubbleLayout {
          * In case of split series, this option allows user to drag and
          * drop points between series, for changing point related series.
          *
-         * @sample highcharts/series-packedbubble/packed-dashboard/
+         * @sample highcharts/demo/packed-bubble-project-status/
          *         Example of drag'n drop bubbles for bubble kanban
          */
         dragBetweenSeries?: boolean;

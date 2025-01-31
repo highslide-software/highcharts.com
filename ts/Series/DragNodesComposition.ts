@@ -113,14 +113,25 @@ function onChartLoad(
 
     let mousedownUnbinder: Function,
         mousemoveUnbinder: Function,
-        mouseupUnbinder: Function;
+        mouseupUnbinder: Function,
+        point: DragNodesPoint;
 
     if (chart.container) {
         mousedownUnbinder = addEvent(
             chart.container,
             'mousedown',
             (event: PointerEvent): void => {
-                const point = chart.hoverPoint;
+
+                if (mousemoveUnbinder) {
+                    mousemoveUnbinder();
+                }
+
+                if (mouseupUnbinder) {
+                    mouseupUnbinder();
+                }
+
+                point = chart.hoverPoint;
+
                 if (
                     point &&
                     point.series &&
