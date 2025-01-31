@@ -8,10 +8,19 @@
  *
  *  Authors:
  *  - Sophie Bremer
+ *  - Dawid Dragula
  *
  * */
 
 'use strict';
+
+/* *
+ *
+ *  Imports
+ *
+ * */
+
+import type CU from './ColumnUtils';
 
 
 /* *
@@ -30,7 +39,7 @@ export interface DataTableOptions {
     /**
      * Initial columns with their values.
      */
-    columns?: Record<string, Array<DataTableValue>>;
+    columns?: Record<string, Array<DataTableValue>|CU.TypedArray>;
 
 
     /**
@@ -40,7 +49,9 @@ export interface DataTableOptions {
 }
 
 
-export type DataTableValue = (boolean|null|number|string|undefined);
+export type DataTablePrimitiveValue = (boolean|null|number|string|undefined);
+
+export type DataTableValue = DataTablePrimitiveValue|DataTablePrimitiveValue[];
 
 
 /* *
